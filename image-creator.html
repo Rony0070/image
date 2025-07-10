@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImaginAI - Ultra-Realistic AI Image Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #f43f5e;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 25px rgba(0,0,0,0.1);
+            
+            --rounded-sm: 0.5rem;
+            --rounded-md: 0.75rem;
+            --rounded-lg: 1rem;
+            --rounded-full: 9999px;
+            
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        @supports (font-variation-settings: normal) {
+            body { font-family: 'Inter var', -apple-system, BlinkMacSystemFont, sans-serif; }
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .header-content {
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--rounded-md);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: var(--dark-light);
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: var(--rounded-full);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(99, 102, 241, 0) 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--dark-light);
+            margin-bottom: 2.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--rounded-md);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(99, 102, 241, 0.05);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--rounded-md);
+            background: white;
+            color: var(--dark);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-icon:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Generator Section */
+        .generator-section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .section-description {
+            color: var(--dark-light);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .generator-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .generator-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Generator Form */
+        .generator-form {
+            background: white;
+            border-radius: var(--rounded-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .form-title i {
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--rounded-sm);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: #f8fafc;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            background: white;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Slider */
+        .slider-container {
+            margin-top: 0.5rem;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .slider-value {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: var(--rounded-full);
+            background: #e2e8f0;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Advanced Options */
+        .advanced-options {
+            margin-top: 2rem;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 1.5rem;
+        }
+
+        .advanced-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .advanced-title {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .advanced-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .advanced-content.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Ad Container */
+        .ad-container {
+            background: white;
+            border-radius: var(--rounded-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+        }
+
+        .ad-label {
+            color: var(--gray);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Results Section */
+        .results-section {
+            padding: 2rem 0 4rem;
+        }
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .results-sort {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sort-label {
+            font-size: 0.875rem;
+            color: var(--dark-light);
+        }
+
+        .sort-select {
+            padding: 0.5rem 1rem 0.5rem 0.5rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--rounded-sm);
+            font-size: 0.875rem;
+            background: #f8fafc;
+            transition: var(--transition);
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: var(--rounded-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .image-container {
+            position: relative;
+            padding-top: 100%;
+            background: #f1f5f9;
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-details {
+            padding: 1rem;
+        }
+
+        .image-prompt {
+            font-size: 0.875rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .image-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+
+        .image-actions {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            background: white;
+            border-radius: var(--rounded-lg);
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+        }
+
+        .spinner {
+            width: 3rem;
+            height: 3rem;
+            border: 3px solid rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin-bottom: 1.5rem;
+        }
+
+        .loading-text {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .loading-subtext {
+            color: var(--dark-light);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Editor Modal */
+        .editor-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+
+        .editor-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .editor-container {
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            background: white;
+            border-radius: var(--rounded-lg);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            box-shadow: var(--shadow-xl);
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .editor-modal.active .editor-container {
+            transform: translateY(0);
+        }
+
+        .editor-sidebar {
+            background: #f8fafc;
+            border-right: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .editor-preview {
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: auto;
+        }
+
+        .editor-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: var(--rounded-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .editor-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .editor-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .editor-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .editor-close:hover {
+            color: var(--dark);
+        }
+
+        .editor-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        /* Tool Groups */
+        .tool-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tool-title i {
+            color: var(--primary);
+            font-size: 0.875rem;
+        }
+
+        .tool-option {
+            margin-bottom: 1rem;
+        }
+
+        .tool-option label {
+            display: block;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-light);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-logo-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--rounded-md);
+        }
+
+        .footer-description {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--rounded-md);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-col-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-link a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-link a:hover {
+            color: white;
+        }
+
+        .footer-link i {
+            font-size: 0.75rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copyright {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-legal a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .footer-legal a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .editor-container {
+                grid-template-columns: 1fr;
+                max-height: 80vh;
+            }
+            
+            .editor-sidebar {
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .footer-legal {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .results-sort {
+                width: 100%;
+            }
+            
+            .sort-select {
+                width: 100%;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
+
+        .gap-4 {
+            gap: 1rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-6 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .mt-6 {
+            margin-top: 1.5rem;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <span>Imagin<span class="gradient-text">AI</span></span>
+                </a>
+                
+                <nav class="nav-links">
+                    <a href="#" class="nav-link active">Generator</a>
+                    <a href="#" class="nav-link">Gallery</a>
+                    <a href="#" class="nav-link">Features</a>
+                    <a href="#" class="nav-link">Pricing</a>
+                </nav>
+                
+                <div class="flex items-center gap-4">
+                    <a href="#" class="btn btn-secondary">Sign In</a>
+                    <button class="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Transform Your Words Into Stunning Visuals</h1>
+                <p class="hero-description">Our advanced AI technology turns your text descriptions into breathtaking, ultra-realistic images with just a click.</p>
+                <div class="flex gap-4 justify-center">
+                    <a href="#generator" class="btn btn-primary">
+                        <i class="fas fa-bolt"></i> Try It Now
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-play"></i> Watch Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Generator Section -->
+    <section class="generator-section" id="generator">
+        <div class="container">
+            <h2 class="section-title">AI Image Generator</h2>
+            <p class="section-description">Describe what you want to create and let our AI do the magic. The more detailed your description, the better the results.</p>
+            
+            <div class="generator-container">
+                <!-- Generator Form -->
+                <div class="generator-form">
+                    <h3 class="form-title">
+                        <i class="fas fa-wand-magic-sparkles"></i> Create New Image
+                    </h3>
+                    
+                    <form id="imageForm">
+                        <div class="form-group">
+                            <label for="prompt" class="form-label">Image Description</label>
+                            <textarea id="prompt" class="form-control" placeholder="A majestic lion standing on a rocky cliff at sunset, golden light, highly detailed fur, cinematic lighting, 8K"></textarea>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="style" class="form-label">Art Style</label>
+                                <select id="style" class="form-control">
+                                    <option value="realistic">Ultra-Realistic</option>
+                                    <option value="photographic">Photographic</option>
+                                    <option value="digital-art">Digital Art</option>
+                                    <option value="fantasy">Fantasy Art</option>
+                                    <option value="anime">Anime</option>
+                                    <option value="watercolor">Watercolor</option>
+                                    <option value="oil-painting">Oil Painting</option>
+                                    <option value="cyberpunk">Cyberpunk</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="aspect" class="form-label">Aspect Ratio</label>
+                                <select id="aspect" class="form-control">
+                                    <option value="1:1">Square (1:1)</option>
+                                    <option value="4:3">Standard (4:3)</option>
+                                    <option value="16:9">Widescreen (16:9)</option>
+                                    <option value="9:16">Portrait (9:16)</option>
+                                    <option value="3:2">Classic (3:2)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="quality" class="form-label">Quality</label>
+                                <div class="slider-container">
+                                    <div class="slider-header">
+                                        <span>Detail Level</span>
+                                        <span class="slider-value" id="qualityValue">8</span>
+                                    </div>
+                                    <input type="range" id="quality" class="slider" min="1" max="10" value="8">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="compression" class="form-label">Compression</label>
+                                <div class="slider-container">
+                                    <div class="slider-header">
+                                        <span>File Size</span>
+                                        <span class="slider-value" id="compressionValue">30%</span>
+                                    </div>
+                                    <input type="range" id="compression" class="slider" min="0" max="100" value="30">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="advanced-options">
+                            <div class="advanced-header" id="advancedToggle">
+                                <span class="advanced-title">Advanced Options</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            
+                            <div class="advanced-content" id="advancedContent">
+                                <div class="form-group mt-4">
+                                    <label for="negativePrompt" class="form-label">Negative Prompt</label>
+                                    <input type="text" id="negativePrompt" class="form-control" placeholder="What you don't want in the image (e.g., blurry, distorted, text)">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="seed" class="form-label">Seed (for reproducibility)</label>
+                                    <input type="number" id="seed" class="form-control" placeholder="Leave blank for random">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="steps" class="form-label">Generation Steps</label>
+                                    <input type="range" id="steps" class="slider" min="10" max="100" value="50">
+                                    <div class="slider-header">
+                                        <span>Faster</span>
+                                        <span class="slider-value" id="stepsValue">50</span>
+                                        <span>Higher Quality</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" id="generateBtn" style="width: 100%; margin-top: 1.5rem;">
+                            <i class="fas fa-sparkles"></i> Generate Image
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Ad Container -->
+                <div class="ad-container">
+                    <span class="ad-label">Advertisement</span>
+                    <!-- Google AdSense Ad Unit -->
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADSENSE_ID" crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-YOUR_ADSENSE_ID"
+                         data-ad-slot="YOUR_AD_SLOT_ID"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section">
+        <div class="container">
+            <div class="results-header">
+                <h3 class="results-title">Your Generated Images</h3>
+                <div class="results-sort">
+                    <span class="sort-label">Sort by:</span>
+                    <select class="sort-select" id="sortBy">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="best">Best Quality</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Loading State -->
+            <div class="loading hidden" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p class="loading-text">Generating your image...</p>
+                <p class="loading-subtext">This usually takes 15-30 seconds</p>
+            </div>
+            
+            <!-- Results Grid -->
+            <div class="results-grid" id="resultsGrid">
+                <!-- Sample Images (would be generated by JS) -->
+                <div class="image-card">
+                    <div class="image-container">
+                        <img src="https://source.unsplash.com/random/800x800/?lion,sunset" alt="Generated image">
+                    </div>
+                    <div class="image-details">
+                        <p class="image-prompt">A majestic lion standing on a rocky cliff at sunset, golden light, highly detailed fur, cinematic lighting</p>
+                        <div class="image-meta">
+                            <span>Ultra-Realistic • 1:1</span>
+                            <span>2 min ago</span>
+                        </div>
+                    </div>
+                    <div class="image-actions">
+                        <button class="btn-icon" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="btn-icon" title="Share">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                        <button class="btn-icon" title="Like">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="image-card">
+                    <div class="image-container">
+                        <img src="https://source.unsplash.com/random/800x800/?cyberpunk,city" alt="Generated image">
+                    </div>
+                    <div class="image-details">
+                        <p class="image-prompt">Cyberpunk cityscape at night with neon lights, rain-soaked streets, futuristic flying cars</p>
+                        <div class="image-meta">
+                            <span>Cyberpunk • 16:9</span>
+                            <span>15 min ago</span>
+                        </div>
+                    </div>
+                    <div class="image-actions">
+                        <button class="btn-icon" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="btn-icon" title="Share">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                        <button class="btn-icon" title="Like">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="image-card">
+                    <div class="image-container">
+                        <img src="https://source.unsplash.com/random/800x800/?fantasy,castle" alt="Generated image">
+                    </div>
+                    <div class="image-details">
+                        <p class="image-prompt">Ancient fantasy castle floating in the clouds, magical glow, intricate architecture</p>
+                        <div class="image-meta">
+                            <span>Fantasy Art • 4:3</span>
+                            <span>1 hour ago</span>
+                        </div>
+                    </div>
+                    <div class="image-actions">
+                        <button class="btn-icon" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon" title="Download">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        <button class="btn-icon" title="Share">
+                            <i class="fas fa-share-alt"></i>
+                        </button>
+                        <button class="btn-icon" title="Like">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="text-center mt-6">
+                <button class="btn btn-secondary" id="loadMoreBtn">
+                    <i class="fas fa-plus"></i> Load More
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Editor Modal -->
+    <div class="editor-modal" id="editorModal">
+        <div class="editor-container">
+            <div class="editor-header">
+                <h3 class="editor-title">Image Editor</h3>
+                <button class="editor-close" id="editorClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="editor-sidebar">
+                <div class="tool-group">
+                    <h4 class="tool-title">
+                        <i class="fas fa-sliders-h"></i> Adjustments
+                    </h4>
+                    
+                    <div class="tool-option">
+                        <label for="brightness">Brightness</label>
+                        <input type="range" id="brightness" class="slider" min="-100" max="100" value="0">
+                    </div>
+                    
+                    <div class="tool-option">
+                        <label for="contrast">Contrast</label>
+                        <input type="range" id="contrast" class="slider" min="-100" max="100" value="0">
+                    </div>
+                    
+                    <div class="tool-option">
+                        <label for="saturation">Saturation</label>
+                        <input type="range" id="saturation" class="slider" min="-100" max="100" value="0">
+                    </div>
+                </div>
+                
+                <div class="tool-group">
+                    <h4 class="tool-title">
+                        <i class="fas fa-filter"></i> Filters
+                    </h4>
+                    
+                    <div class="tool-option">
+                        <label>
+                            <input type="radio" name="filter" value="none" checked> None
+                        </label>
+                    </div>
+                    
+                    <div class="tool-option">
+                        <label>
+                            <input type="radio" name="filter" value="vintage"> Vintage
+                        </label>
+                    </div>
+                    
+                    <div class="tool-option">
+                        <label>
+                            <input type="radio" name="filter" value="blackWhite"> Black & White
+                        </label>
+                    </div>
+                    
+                    <div class="tool-option">
+                        <label>
+                            <input type="radio" name="filter" value="sepia"> Sepia
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="tool-group">
+                    <h4 class="tool-title">
+                        <i class="fas fa-magic"></i> Enhancements
+                    </h4>
+                    
+                    <div class="tool-option">
+                        <label for="sharpen">Sharpen</label>
+                        <input type="range" id="sharpen" class="slider" min="0" max="100" value="0">
+                    </div>
+                    
+                    <div class="tool-option">
+                        <label for="noise">Noise Reduction</label>
+                        <input type="range" id="noise" class="slider" min="0" max="100" value="0">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="editor-preview">
+                <img src="https://source.unsplash.com/random/1200x800/?lion,sunset" alt="Image being edited" id="editorImage">
+            </div>
+            
+            <div class="editor-footer">
+                <button class="btn btn-secondary" id="editorCancel">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" id="editorSave">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+                <button class="btn btn-primary" id="editorDownload">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        ImaginAI
+                    </a>
+                    <p class="footer-description">
+                        Transforming your imagination into stunning visuals with cutting-edge AI technology.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-discord"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Product</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Features
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Pricing
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> API
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Examples
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Resources</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Documentation
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Tutorials
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Blog
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Community
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Company</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> About Us
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Careers
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Contact
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Press
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">© 2023 ImaginAI. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const imageForm = document.getElementById('imageForm');
+            const promptInput = document.getElementById('prompt');
+            const generateBtn = document.getElementById('generateBtn');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const resultsGrid = document.getElementById('resultsGrid');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const sortBySelect = document.getElementById('sortBy');
+            const advancedToggle = document.getElementById('advancedToggle');
+            const advancedContent = document.getElementById('advancedContent');
+            const editorModal = document.getElementById('editorModal');
+            const editorClose = document.getElementById('editorClose');
+            const editorCancel = document.getElementById('editorCancel');
+            const editorSave = document.getElementById('editorSave');
+            const editorDownload = document.getElementById('editorDownload');
+            const editorImage = document.getElementById('editorImage');
+            
+            // Sliders
+            const qualitySlider = document.getElementById('quality');
+            const qualityValue = document.getElementById('qualityValue');
+            const compressionSlider = document.getElementById('compression');
+            const compressionValue = document.getElementById('compressionValue');
+            const stepsSlider = document.getElementById('steps');
+            const stepsValue = document.getElementById('stepsValue');
+            
+            // Image editing controls
+            const brightnessSlider = document.getElementById('brightness');
+            const contrastSlider = document.getElementById('contrast');
+            const saturationSlider = document.getElementById('saturation');
+            const sharpenSlider = document.getElementById('sharpen');
+            const noiseSlider = document.getElementById('noise');
+            const filterRadios = document.querySelectorAll('input[name="filter"]');
+            
+            // Sample data
+            let generatedImages = [];
+            let currentEditingImage = null;
+            
+            // Initialize sliders
+            qualitySlider.addEventListener('input', function() {
+                qualityValue.textContent = this.value;
+            });
+            
+            compressionSlider.addEventListener('input', function() {
+                compressionValue.textContent = `${this.value}%`;
+            });
+            
+            stepsSlider.addEventListener('input', function() {
+                stepsValue.textContent = this.value;
+            });
+            
+            // Advanced options toggle
+            advancedToggle.addEventListener('click', function() {
+                advancedContent.classList.toggle('show');
+                this.querySelector('i').classList.toggle('fa-chevron-down');
+                this.querySelector('i').classList.toggle('fa-chevron-up');
+            });
+            
+            // Form submission
+            imageForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                generateImage();
+            });
+            
+            // Generate image function
+            function generateImage() {
+                const prompt = promptInput.value.trim();
+                if (!prompt) {
+                    alert('Please enter an image description');
+                    return;
+                }
+                
+                // Show loading state
+                loadingIndicator.classList.remove('hidden');
+                generateBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    // Create mock image data
+                    const newImage = {
+                        id: Date.now(),
+                        prompt: prompt,
+                        style: document.getElementById('style').value,
+                        aspect: document.getElementById('aspect').value,
+                        quality: qualitySlider.value,
+                        compression: compressionSlider.value,
+                        negativePrompt: document.getElementById('negativePrompt').value,
+                        seed: document.getElementById('seed').value,
+                        steps: stepsSlider.value,
+                        url: `https://source.unsplash.com/random/800x800/?${encodeURIComponent(prompt)}`,
+                        timestamp: new Date().toISOString(),
+                        score: Math.floor(Math.random() * 50) + 50
+                    };
+                    
+                    // Add to images array
+                    generatedImages.unshift(newImage);
+                    
+                    // Create image card
+                    const imageCard = document.createElement('div');
+                    imageCard.className = 'image-card';
+                    imageCard.innerHTML = `
+                        <div class="image-container">
+                            <img src="${newImage.url}" alt="${newImage.prompt}">
+                        </div>
+                        <div class="image-details">
+                            <p class="image-prompt">${newImage.prompt}</p>
+                            <div class="image-meta">
+                                <span>${formatStyle(newImage.style)} • ${newImage.aspect}</span>
+                                <span>Just now</span>
+                            </div>
+                        </div>
+                        <div class="image-actions">
+                            <button class="btn-icon" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-icon" title="Download">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn-icon" title="Share">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                            <button class="btn-icon" title="Like">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    // Add event listeners
+                    const editBtn = imageCard.querySelector('.btn-icon:nth-child(1)');
+                    const downloadBtn = imageCard.querySelector('.btn-icon:nth-child(2)');
+                    const shareBtn = imageCard.querySelector('.btn-icon:nth-child(3)');
+                    const likeBtn = imageCard.querySelector('.btn-icon:nth-child(4)');
+                    
+                    editBtn.addEventListener('click', () => openEditor(newImage));
+                    downloadBtn.addEventListener('click', () => downloadImage(newImage));
+                    shareBtn.addEventListener('click', () => shareImage(newImage));
+                    likeBtn.addEventListener('click', function() {
+                        this.innerHTML = '<i class="fas fa-heart"></i>';
+                        this.style.color = 'var(--secondary)';
+                    });
+                    
+                    // Prepend new image to grid
+                    resultsGrid.prepend(imageCard);
+                    
+                    // Hide loading state
+                    loadingIndicator.classList.add('hidden');
+                    generateBtn.disabled = false;
+                    
+                    // Show load more button if we have more than 3 images
+                    if (generatedImages.length > 3) {
+                        loadMoreBtn.style.display = 'inline-flex';
+                    }
+                }, 2000);
+            }
+            
+            // Format style for display
+            function formatStyle(style) {
+                const styles = {
+                    'realistic': 'Ultra-Realistic',
+                    'photographic': 'Photographic',
+                    'digital-art': 'Digital Art',
+                    'fantasy': 'Fantasy Art',
+                    'anime': 'Anime',
+                    'watercolor': 'Watercolor',
+                    'oil-painting': 'Oil Painting',
+                    'cyberpunk': 'Cyberpunk'
+                };
+                return styles[style] || style;
+            }
+            
+            // Open editor
+            function openEditor(image) {
+                currentEditingImage = image;
+                editorImage.src = image.url;
+                editorModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // Reset all filters
+                brightnessSlider.value = 0;
+                contrastSlider.value = 0;
+                saturationSlider.value = 0;
+                sharpenSlider.value = 0;
+                noiseSlider.value = 0;
+                document.querySelector('input[name="filter"][value="none"]').checked = true;
+                updateImageFilters();
+            }
+            
+            // Close editor
+            function closeEditor() {
+                editorModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+            
+            // Update image filters
+            function updateImageFilters() {
+                const brightness = brightnessSlider.value;
+                const contrast = contrastSlider.value;
+                const saturation = saturationSlider.value;
+                const sharpen = sharpenSlider.value;
+                const noise = noiseSlider.value;
+                const filter = document.querySelector('input[name="filter"]:checked').value;
+                
+                let filterCSS = '';
+                
+                // Basic adjustments
+                if (brightness != 0) filterCSS += `brightness(${100 + parseInt(brightness)}%) `;
+                if (contrast != 0) filterCSS += `contrast(${100 + parseInt(contrast)}%) `;
+                if (saturation != 0) filterCSS += `saturate(${100 + parseInt(saturation)}%) `;
+                
+                // Filters
+                switch(filter) {
+                    case 'vintage':
+                        filterCSS += 'sepia(50%) hue-rotate(-20deg)';
+                        break;
+                    case 'blackWhite':
+                        filterCSS += 'grayscale(100%)';
+                        break;
+                    case 'sepia':
+                        filterCSS += 'sepia(100%)';
+                        break;
+                }
+                
+                // Apply filters
+                editorImage.style.filter = filterCSS;
+            }
+            
+            // Save edited image
+            function saveEditedImage() {
+                alert('Changes saved successfully!');
+                closeEditor();
+            }
+            
+            // Download image
+            function downloadImage(image) {
+                alert(`Downloading: ${image.prompt}`);
+            }
+            
+            // Share image
+            function shareImage(image) {
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'AI Generated Image',
+                        text: image.prompt,
+                        url: image.url,
+                    }).catch(err => {
+                        console.log('Error sharing:', err);
+                        alert('Could not share image. Here is the URL to copy:\n' + image.url);
+                    });
+                } else {
+                    alert('Web Share API not supported. Here is the URL to copy:\n' + image.url);
+                }
+            }
+            
+            // Editor event listeners
+            editorClose.addEventListener('click', closeEditor);
+            editorCancel.addEventListener('click', closeEditor);
+            editorSave.addEventListener('click', saveEditedImage);
+            editorDownload.addEventListener('click', () => downloadImage(currentEditingImage));
+            
+            // Image editing controls
+            brightnessSlider.addEventListener('input', updateImageFilters);
+            contrastSlider.addEventListener('input', updateImageFilters);
+            saturationSlider.addEventListener('input', updateImageFilters);
+            sharpenSlider.addEventListener('input', updateImageFilters);
+            noiseSlider.addEventListener('input', updateImageFilters);
+            
+            filterRadios.forEach(radio => {
+                radio.addEventListener('change', updateImageFilters);
+            });
+            
+            // Load more images
+            loadMoreBtn.addEventListener('click', function() {
+                // Simulate loading more images
+                this.disabled = true;
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                
+                setTimeout(() => {
+                    const newImages = Array(3).fill().map((_, i) => ({
+                        id: Date.now() + i,
+                        prompt: ['Futuristic city with flying cars', 'Magical forest with glowing plants', 'Underwater alien civilization'][i],
+                        style: ['cyberpunk', 'fantasy', 'digital-art'][i],
+                        aspect: ['16:9', '4:3', '1:1'][i],
+                        quality: Math.floor(Math.random() * 5) + 5,
+                        compression: Math.floor(Math.random() * 50) + 20,
+                        url: `https://source.unsplash.com/random/800x800/?${['future,city', 'fantasy,forest', 'underwater,alien'][i]}`,
+                        timestamp: new Date(Date.now() - (i * 3600000)).toISOString(),
+                        score: Math.floor(Math.random() * 50) + 50
+                    }));
+                    
+                    newImages.forEach(image => {
+                        const imageCard = document.createElement('div');
+                        imageCard.className = 'image-card';
+                        imageCard.innerHTML = `
+                            <div class="image-container">
+                                <img src="${image.url}" alt="${image.prompt}">
+                            </div>
+                            <div class="image-details">
+                                <p class="image-prompt">${image.prompt}</p>
+                                <div class="image-meta">
+                                    <span>${formatStyle(image.style)} • ${image.aspect}</span>
+                                    <span>${i+1} hour${i > 0 ? 's' : ''} ago</span>
+                                </div>
+                            </div>
+                            <div class="image-actions">
+                                <button class="btn-icon" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-icon" title="Download">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="btn-icon" title="Share">
+                                    <i class="fas fa-share-alt"></i>
+                                </button>
+                                <button class="btn-icon" title="Like">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        `;
+                        
+                        // Add event listeners
+                        const editBtn = imageCard.querySelector('.btn-icon:nth-child(1)');
+                        const downloadBtn = imageCard.querySelector('.btn-icon:nth-child(2)');
+                        const shareBtn = imageCard.querySelector('.btn-icon:nth-child(3)');
+                        const likeBtn = imageCard.querySelector('.btn-icon:nth-child(4)');
+                        
+                        editBtn.addEventListener('click', () => openEditor(image));
+                        downloadBtn.addEventListener('click', () => downloadImage(image));
+                        shareBtn.addEventListener('click', () => shareImage(image));
+                        likeBtn.addEventListener('click', function() {
+                            this.innerHTML = '<i class="fas fa-heart"></i>';
+                            this.style.color = 'var(--secondary)';
+                        });
+                        
+                        resultsGrid.appendChild(imageCard);
+                    });
+                    
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fas fa-plus"></i> Load More';
+                }, 1500);
+            });
+            
+            // Sort images
+            sortBySelect.addEventListener('change', function() {
+                const value = this.value;
+                const images = Array.from(resultsGrid.children);
+                
+                images.sort((a, b) => {
+                    if (value === 'newest') {
+                        return new Date(b.dataset.timestamp) - new Date(a.dataset.timestamp);
+                    } else if (value === 'oldest') {
+                        return new Date(a.dataset.timestamp) - new Date(b.dataset.timestamp);
+                    } else if (value === 'best') {
+                        return b.dataset.score - a.dataset.score;
+                    }
+                    return 0;
+                });
+                
+                // Re-append sorted images
+                images.forEach(img => resultsGrid.appendChild(img));
+            });
+        });
+    </script>
+</body>
+</html>
