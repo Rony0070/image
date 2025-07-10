@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Tools Hub | AI-Powered Image & Video Creator</title>
+    <meta name="description" content="Create stunning images and videos with our AI-powered tools. Free, fast, and easy to use.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #564FC9;
+            --primary-light: #8B85FF;
+            --secondary: #FF6584;
+            --dark: #1E1E2C;
+            --dark-light: #2D2D42;
+            --light: #F8F9FF;
+            --gray: #A1A1B5;
+            --success: #00C9A7;
+            --warning: #FFC75F;
+            --error: #FF6F6F;
+            
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.16);
+            
+            --rounded-sm: 8px;
+            --rounded-md: 12px;
+            --rounded-lg: 16px;
+            --rounded-xl: 24px;
+            
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--rounded-sm);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--dark);
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--dark);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #F8F9FF 0%, #E6E9FF 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(108, 99, 255, 0.1) 0%, rgba(108, 99, 255, 0) 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--dark-light);
+            margin-bottom: 2.5rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: var(--rounded-md);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(108, 99, 255, 0.05);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Features Section */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--dark-light);
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-size: 1.125rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--rounded-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.1), rgba(255, 101, 132, 0.1));
+            border-radius: var(--rounded-lg);
+            margin: 0 auto 1.5rem;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--dark-light);
+            font-size: 1rem;
+        }
+
+        /* Tools Section */
+        .tools-section {
+            background: linear-gradient(135deg, #F8F9FF 0%, #F0F2FF 100%);
+        }
+
+        .tools-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: var(--rounded-full);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #F1F5F9;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: var(--rounded-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tool-image {
+            height: 180px;
+            background: #F8F9FF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tool-image .icon {
+            position: absolute;
+            font-size: 3rem;
+            color: var(--primary);
+            opacity: 0.2;
+        }
+
+        .tool-content {
+            padding: 1.5rem;
+        }
+
+        .tool-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-description {
+            color: var(--dark-light);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tool-type {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--rounded-full);
+            background: #F1F5F9;
+            color: var(--dark-light);
+        }
+
+        .tool-type.image {
+            background: rgba(108, 99, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .tool-type.video {
+            background: rgba(255, 101, 132, 0.1);
+            color: var(--secondary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-description {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-logo-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--rounded-sm);
+        }
+
+        .footer-description {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--rounded-sm);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .footer-col-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-link {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-link a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-link a:hover {
+            color: white;
+        }
+
+        .footer-link i {
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copyright {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .footer-legal a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: var(--transition);
+        }
+
+        .footer-legal a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-description {
+                font-size: 1.125rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .footer-legal {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .tools-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .cta-title {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <span>CreativeTools</span>
+                </a>
+                
+                <nav class="nav-links">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-image"></i> Image Tools
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-video"></i> Video Tools
+                    </a>
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-crown"></i> Premium
+                    </a>
+                </nav>
+                
+                <div class="flex items-center gap-4">
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                    <button class="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content animate-fadeIn">
+                <h1 class="hero-title">Create Stunning Visual Content</h1>
+                <p class="hero-description">Transform your ideas into professional-quality images and videos with our AI-powered creative tools. No design skills required!</p>
+                <div class="flex gap-4 justify-center">
+                    <a href="#" class="btn btn-primary">
+                        <i class="fas fa-bolt"></i> Start Creating
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-play"></i> Watch Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title animate-fadeIn">Why Choose Our Tools</h2>
+            <p class="section-subtitle animate-fadeIn delay-100">Powerful features that make content creation effortless</p>
+            
+            <div class="features-grid">
+                <div class="feature-card animate-fadeIn delay-200">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-description">Generate high-quality images and videos in seconds with our optimized AI technology.</p>
+                </div>
+                
+                <div class="feature-card animate-fadeIn delay-300">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="feature-title">Privacy Focused</h3>
+                    <p class="feature-description">Your creations stay private. We don't store your files on our servers.</p>
+                </div>
+                
+                <div class="feature-card animate-fadeIn delay-400">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3 class="feature-title">Advanced Controls</h3>
+                    <p class="feature-description">Fine-tune every aspect of your creations with professional-grade settings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools Section -->
+    <section class="section tools-section">
+        <div class="container">
+            <h2 class="section-title animate-fadeIn">Explore Our Creative Tools</h2>
+            <p class="section-subtitle animate-fadeIn delay-100">Everything you need to bring your ideas to life</p>
+            
+            <div class="tools-tabs animate-fadeIn delay-200">
+                <button class="tab-btn active" data-category="all">All Tools</button>
+                <button class="tab-btn" data-category="image">Image Tools</button>
+                <button class="tab-btn" data-category="video">Video Tools</button>
+                <button class="tab-btn" data-category="ai">AI Tools</button>
+            </div>
+            
+            <div class="tools-grid">
+                <!-- Image Tools -->
+                <div class="tool-card animate-fadeIn delay-300" data-categories="image,ai">
+                    <div class="tool-image">
+                        <div class="icon">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <img src="https://source.unsplash.com/random/600x400/?art,design" alt="AI Image Generator">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">AI Image Generator</h3>
+                        <p class="tool-description">Create stunning images from text prompts with our advanced AI technology.</p>
+                        <div class="tool-meta">
+                            <span class="tool-type image">Image</span>
+                            <a href="#" class="btn btn-secondary">Try Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-card animate-fadeIn delay-350" data-categories="image">
+                    <div class="tool-image">
+                        <div class="icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <img src="https://source.unsplash.com/random/600x400/?photo,editor" alt="Photo Editor">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">Advanced Photo Editor</h3>
+                        <p class="tool-description">Edit, enhance, and transform your photos with professional tools.</p>
+                        <div class="tool-meta">
+                            <span class="tool-type image">Image</span>
+                            <a href="#" class="btn btn-secondary">Try Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Video Tools -->
+                <div class="tool-card animate-fadeIn delay-400" data-categories="video,ai">
+                    <div class="tool-image">
+                        <div class="icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <img src="https://source.unsplash.com/random/600x400/?video,production" alt="AI Video Generator">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">AI Video Generator</h3>
+                        <p class="tool-description">Turn your ideas into engaging videos with artificial intelligence.</p>
+                        <div class="tool-meta">
+                            <span class="tool-type video">Video</span>
+                            <a href="#" class="btn btn-secondary">Try Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-card animate-fadeIn delay-450" data-categories="video">
+                    <div class="tool-image">
+                        <div class="icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <img src="https://source.unsplash.com/random/600x400/?editing,studio" alt="Video Editor">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">Online Video Editor</h3>
+                        <p class="tool-description">Edit videos like a pro with our browser-based editor.</p>
+                        <div class="tool-meta">
+                            <span class="tool-type video">Video</span>
+                            <a href="#" class="btn btn-secondary">Try Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- More Tools -->
+                <div class="tool-card animate-fadeIn delay-300" data-categories="image">
+                    <div class="tool-image">
+                        <div class="icon">
+                            <i class="fas fa-object-group"></i>
+                        </div>
+                        <img src="https://source.unsplash.com/random/600x400/?graphic,design" alt="Graphic Designer">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">Graphic Designer</h3>
+                        <p class="tool-description">Create beautiful social media graphics, banners, and more.</p>
+                        <div class="tool-meta">
+                            <span class="tool-type image">Image</span>
+                            <a href="#" class="btn btn-secondary">Try Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tool-card animate-fadeIn delay-350" data-categories="video">
+                    <div class="tool-image">
+                        <div class="icon">
+                            <i class="fas fa-photo-film"></i>
+                        </div>
+                        <img src="https://source.unsplash.com/random/600x400/?animation,motion" alt="Motion Graphics">
+                    </div>
+                    <div class="tool-content">
+                        <h3 class="tool-title">Motion Graphics</h3>
+                        <p class="tool-description">Create stunning animated content for social media and websites.</p>
+                        <div class="tool-meta">
+                            <span class="tool-type video">Video</span>
+                            <a href="#" class="btn btn-secondary">Try Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-6">
+                <a href="#" class="btn btn-primary">
+                    <i class="fas fa-eye"></i> View All Tools
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="cta-title animate-fadeIn">Ready to Unleash Your Creativity?</h2>
+            <p class="cta-description animate-fadeIn delay-100">Join thousands of creators who are already making amazing content with our tools.</p>
+            <div class="flex gap-4 justify-center animate-fadeIn delay-200">
+                <a href="#" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> Get Started Free
+                </a>
+                <a href="#" class="btn btn-secondary" style="background: white; color: var(--primary);">
+                    <i class="fas fa-crown"></i> Go Premium
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        CreativeTools
+                    </a>
+                    <p class="footer-description">
+                        Your all-in-one platform for creating stunning visual content. Powered by AI, designed for everyone.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Image Tools</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> AI Image Generator
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Photo Editor
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Background Remover
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Image Upscaler
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Meme Generator
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Video Tools</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> AI Video Generator
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Video Editor
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Screen Recorder
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Video Compressor
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> GIF Maker
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4 class="footer-col-title">Company</h4>
+                    <ul class="footer-links">
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> About Us
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Blog
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Careers
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Contact
+                            </a>
+                        </li>
+                        <li class="footer-link">
+                            <a href="#">
+                                <i class="fas fa-chevron-right"></i> Pricing
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="copyright">© 2023 CreativeTools. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            });
+            
+            // Tool tabs functionality
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active tab
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const category = this.dataset.category;
+                    
+                    // Filter tools
+                    toolCards.forEach(card => {
+                        if (category === 'all') {
+                            card.style.display = 'block';
+                        } else {
+                            const categories = card.dataset.categories.split(',');
+                            if (categories.includes(category)) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+                });
+            });
+            
+            // Simple animation on scroll
+            const animateElements = document.querySelectorAll('.animate-fadeIn');
+            
+            function checkScroll() {
+                animateElements.forEach(el => {
+                    const elTop = el.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elTop < windowHeight - 100) {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            // Initial check
+            checkScroll();
+            
+            // Check on scroll
+            window.addEventListener('scroll', checkScroll);
+        });
+    </script>
+</body>
+</html>
